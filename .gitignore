@@ -1,3 +1,6 @@
+*
+!*.cpp
+!Done/*.cpp
 # Prerequisites
 *.d
 
