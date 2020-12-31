@@ -43,7 +43,11 @@ public:
             if (S[i] == '-')
                 continue;
             cnt--;
-            res += S[i];
+            if (S[i] >= 'a' && S[i] <= 'z') {
+                res += (S[i] + 'A' - 'a');
+            } else {
+                res += S[i];
+            }
             if (cnt == 0) {
                 res += '-';
                 cnt = K;
