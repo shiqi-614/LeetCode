@@ -84,7 +84,7 @@ public:
             return res;
         }
     }
-    int largestPalindrome(int n)
+    int findIntegers(int n)
     {
         data.clear();
         memset(dp, -1, sizeof(dp));
@@ -104,7 +104,7 @@ public:
 int main()
 {
     Solution s;
-    cout << s.largestPalindrome(5) << endl;
-    cout << s.largestPalindrome(1) << endl;
+    cout << s.findIntegers(5) << endl;
+    cout << s.findIntegers(1) << endl;
     return 0;
 }
