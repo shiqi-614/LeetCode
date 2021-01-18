@@ -59,7 +59,7 @@ public:
     int find_fa(int x)
     {
         if (fa[x] != x)
-            fa[x] = find_fa(fa[x]);
+            return fa[x] = find_fa(fa[x]);
         return x;
     }
     void unin(int x, int y)
@@ -85,6 +85,8 @@ public:
         }
 
         sort(order.begin(), order.end());
+        //for (int i = 0; i < (int)order.size(); i++)
+        //cout << order[i].x << " " << order[i].y << " " << order[i].dis << endl;
 
         int res = 0;
         for (int i = 0; i < (int)order.size(); i++) {
@@ -93,6 +95,7 @@ public:
             if (find_fa(x) != find_fa(y)) {
                 res += order[i].dis;
                 unin(x, y);
+                //cout << "unin x:" << x << " y:" << y << endl;
             }
         }
         return res;
@@ -101,5 +104,28 @@ public:
 
 int main()
 {
+    vector<vector<int>> data;
+    vector<int> tmp1;
+    tmp1.push_back(0);
+    tmp1.push_back(0);
+    data.push_back(tmp1);
+    vector<int> tmp2;
+    tmp2.push_back(2);
+    tmp2.push_back(2);
+    data.push_back(tmp2);
+    vector<int> tmp3;
+    tmp3.push_back(3);
+    tmp3.push_back(10);
+    data.push_back(tmp3);
+    vector<int> tmp4;
+    tmp4.push_back(5);
+    tmp4.push_back(2);
+    data.push_back(tmp4);
+    vector<int> tmp5;
+    tmp5.push_back(7);
+    tmp5.push_back(0);
+    data.push_back(tmp5);
+    Solution s;
+    cout << s.minCostConnectPoints(data) << endl;
     return 0;
 }
