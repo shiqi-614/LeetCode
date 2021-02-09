@@ -62,16 +62,19 @@ public:
             return fa[x] = find_fa(fa[x]);
         return x;
     }
+
     void unin(int x, int y)
     {
         int xx = find_fa(x);
         int yy = find_fa(y);
         fa[xx] = yy;
     }
+
     int getDis(vector<int> x, vector<int> y)
     {
         return abs(x[0] - y[0]) + abs(x[1] - y[1]);
     }
+
     int minCostConnectPoints(vector<vector<int>>& points)
     {
         for (int i = 0; i < N; i++)
