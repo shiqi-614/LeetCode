@@ -79,7 +79,9 @@ struct SegTree {
     void update(int lft, int rht, int idx, int pos, PII data)
     {
         if (lft == rht) {
-            node[idx] = data;
+            if (data.first < node[idx].first) {
+                node[idx] = data;
+            }
         } else {
             int mid = MID(lft, rht);
             update(lft, mid, LL(idx), pos, data);
@@ -100,9 +102,9 @@ struct SegTree {
             int mid = MID(lft, rht);
             PII mi1 = make_pair(INF, INF);
             PII mi2 = make_pair(INF, INF);
-            if (st < mid)
+            if (st <= mid)
                 mi1 = query(lft, mid, LL(idx), st, ed);
-            if (ed >= mid)
+            if (ed > mid)
                 mi2 = query(mid + 1, rht, RR(idx), st, ed);
             if (mi1.first < mi2.first) {
                 return mi1;
@@ -167,12 +169,20 @@ public:
         sort(nodes.begin(), nodes.end());
         for (int i = len - 1; i >= 0; i--) {
             Node current = nodes[i];
-            int target = H[points[i][1] - points[i][0]];
-            PII res = seg.query(target, (int)order.size() - 1, 1, target, (int)order.size() - 1);
+            int x = current.x;
+            int y = current.y;
+            int idx = current.idx;
+            int target = H[y - x];
+            PII res = seg.query(0, (int)order.size() - 1, 1, target, (int)order.size() - 1);
+            //cout << "x:" << x << " y: " << y << " value" << y - x << " hash:" << H[y - x] << endl;
+            //cout << "update x:" << target << " data:" << points[idx][0] + points[idx][1] << " idx:" << idx << endl;
             if (res.second != -1) {
-                edges.push_back(Edge(current.idx, res.second, getDis(current.idx, res.second, points)));
+                //                cout << "res:" << res.first << " " << res.second << endl;
+                edges.push_back(Edge(idx, res.second, getDis(idx, res.second, points)));
+                //cout << "range " << target << " " << (int)order.size() - 1 << endl;
+                //cout << "new edge x:" << current.idx << " y:" << res.second << " dis:" << getDis(idx, res.second, points) << endl;
             }
-            seg.update(0, (int)order.size() - 1, 1, target, make_pair(points[i][1] + points[i][0], current.idx));
+            seg.update(0, (int)order.size() - 1, 1, target, make_pair(x + y, idx));
         }
     }
     int minCostConnectPoints(vector<vector<int>>& points)
@@ -185,16 +195,19 @@ public:
         this->len = (int)points.size();
         getEdges(points);
 
+        //cout << "swap" << endl;
         for (int i = 0; i < len; i++) {
             swap(points[i][0], points[i][1]);
         }
         getEdges(points);
 
+        //cout << "-x" << endl;
         for (int i = 0; i < len; i++) {
             points[i][0] = -points[i][0];
         }
         getEdges(points);
 
+        ///cout << "swap" << endl;
         for (int i = 0; i < len; i++) {
             swap(points[i][0], points[i][1]);
         }
@@ -218,26 +231,33 @@ public:
 int main()
 {
     vector<vector<int>> data;
+
     vector<int> tmp1;
-    tmp1.push_back(0);
-    tmp1.push_back(0);
-    data.push_back(tmp1);
     vector<int> tmp2;
-    tmp2.push_back(2);
-    tmp2.push_back(2);
-    data.push_back(tmp2);
     vector<int> tmp3;
-    tmp3.push_back(3);
-    tmp3.push_back(10);
-    data.push_back(tmp3);
     vector<int> tmp4;
-    tmp4.push_back(5);
-    tmp4.push_back(2);
-    data.push_back(tmp4);
     vector<int> tmp5;
-    tmp5.push_back(7);
-    tmp5.push_back(0);
+    vector<int> tmp6;
+
+    tmp1.push_back(7);
+    tmp1.push_back(18);
+    tmp2.push_back(-15);
+    tmp2.push_back(19);
+    tmp3.push_back(-18);
+    tmp3.push_back(-15);
+    tmp4.push_back(-7);
+    tmp4.push_back(14);
+    tmp5.push_back(4);
+    tmp5.push_back(1);
+    tmp6.push_back(-6);
+    tmp6.push_back(3);
+
+    data.push_back(tmp1);
+    data.push_back(tmp2);
+    data.push_back(tmp3);
+    data.push_back(tmp4);
     data.push_back(tmp5);
+    data.push_back(tmp6);
     Solution s;
     cout << s.minCostConnectPoints(data) << endl;
     return 0;
