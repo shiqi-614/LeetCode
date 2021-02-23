@@ -49,6 +49,10 @@ struct TrieTree {
     TrieNode* root;
     TrieTree()
     {
+        init();
+    }
+    void init()
+    {
         this->root = new TrieNode();
     }
     void insert(string word, int idx)
@@ -90,9 +94,10 @@ class Solution {
 public:
     vector<vector<int>> multiSearch(string big, vector<string>& smalls)
     {
+        trie.init();
         vector<vector<int>> res((int)smalls.size(), vector<int>());
         for (int i = 0; i < (int)smalls.size(); i++) {
-            cout << "insert:" << smalls[i] << " " << i << endl;
+            //cout << "insert:" << smalls[i] << " " << i << endl;
             trie.insert(smalls[i], i);
         }
         int len = (int)big.length();
@@ -117,6 +122,9 @@ int main()
     smalls.push_back("ssippi");
     Solution s;
     vector<vector<int>> res = s.multiSearch("mississippi", smalls);
+    smalls.clear();
+    smalls.push_back("");
+    res = s.multiSearch("mississippi", smalls);
     for (int i = 0; i < (int)res.size(); i++) {
         for (int j = 0; j < (int)res[i].size(); j++) {
             cout << res[i][j] << " ";
