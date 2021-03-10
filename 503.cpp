@@ -52,7 +52,7 @@ struct SegTree {
     void update(int lft, int rht, int idx, int pos, int val)
     {
         if (lft == rht) {
-            miPos[idx] = val;
+            miPos[idx] = min(val, miPos[idx]);
         } else {
             int mid = MID(lft, rht);
             if (pos <= mid)
@@ -106,11 +106,12 @@ public:
         for (int i = len - 1; i >= 0; i--) {
             int pos = seg.query(0, ed, 1, H[nums[i]] + 1, ed);
             if (pos != INF) {
-                //cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
-                //cout << "res i:" << i << " pos:" << pos << endl;
+                cout << "loop1" << endl;
+                cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
+                cout << "res i:" << i << " pos:" << pos << endl;
                 res[i] = nums[pos];
             }
-            seg.update(0, ed, 1, i, H[nums[i]]);
+            seg.update(0, ed, 1, H[nums[i]], i);
         }
         seg.build(0, ed, 1);
         for (int i = 0; i < len; i++) {
@@ -118,11 +119,12 @@ public:
                 int pos = seg.query(0, ed, 1, H[nums[i]] + 1, ed);
                 if (pos != INF) {
                     res[i] = nums[pos];
-                    //cout << "i:" << i << " nums:" << nums[i] << " pos : " << H[nums[i]] + 1 << endl;
-                    //cout << "res2 i:" << i << " pos:" << pos << endl;
+                    cout << "loop2" << endl;
+                    cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
+                    cout << "res i:" << i << " pos:" << pos << endl;
                 }
             }
-            seg.update(0, ed, 1, i, H[nums[i]]);
+            seg.update(0, ed, 1, H[nums[i]], i);
         }
 
         return res;
@@ -131,8 +133,9 @@ public:
 
 int main()
 {
-    int tmp[] = { 1, 2, 1 };
+    //int tmp[] = { 1, 2, 1 };
     //int tmp[] = { 5, 4, 3, 2, 1 };
+    int tmp[] = { 1, 2, 3, 2, 1 };
     vector<int> data;
     for (int i = 0; i < (int)sizeof(tmp) / sizeof(int); i++) {
         data.push_back(tmp[i]);
