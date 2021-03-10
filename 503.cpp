@@ -88,7 +88,7 @@ public:
         int len = (int)nums.size();
         vector<int> order = nums;
         map<int, int> H;
-        vector<int> res(len, -1);
+        vector<int> res(len, INF);
 
         if (len == 0) {
             return res;
@@ -106,25 +106,30 @@ public:
         for (int i = len - 1; i >= 0; i--) {
             int pos = seg.query(0, ed, 1, H[nums[i]] + 1, ed);
             if (pos != INF) {
-                cout << "loop1" << endl;
-                cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
-                cout << "res i:" << i << " pos:" << pos << endl;
+                //cout << "loop1" << endl;
+                //cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
+                //cout << "res i:" << i << " pos:" << pos << "valu:" << nums[pos] << endl;
                 res[i] = nums[pos];
             }
             seg.update(0, ed, 1, H[nums[i]], i);
         }
         seg.build(0, ed, 1);
         for (int i = 0; i < len; i++) {
-            if (res[i] == -1) {
+            if (res[i] == INF) {
                 int pos = seg.query(0, ed, 1, H[nums[i]] + 1, ed);
                 if (pos != INF) {
                     res[i] = nums[pos];
-                    cout << "loop2" << endl;
-                    cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
-                    cout << "res i:" << i << " pos:" << pos << endl;
+                    //cout << "loop2" << endl;
+                    //cout << "i:" << i << " nums:" << nums[i] << " st:" << H[nums[i]] + 1 << " ed:" << ed << endl;
+                    //cout << "res i:" << i << " pos:" << pos << endl;
                 }
             }
             seg.update(0, ed, 1, H[nums[i]], i);
+        }
+        for (int i = 0; i < len; i++) {
+            if (res[i] == INF) {
+                res[i] = -1;
+            }
         }
 
         return res;
@@ -135,7 +140,8 @@ int main()
 {
     //int tmp[] = { 1, 2, 1 };
     //int tmp[] = { 5, 4, 3, 2, 1 };
-    int tmp[] = { 1, 2, 3, 2, 1 };
+    //int tmp[] = { 1, 2, 3, 2, 1 };
+    int tmp[] = { 1, 8, -1, -100, -1, 222, 1111111, -111111 };
     vector<int> data;
     for (int i = 0; i < (int)sizeof(tmp) / sizeof(int); i++) {
         data.push_back(tmp[i]);
