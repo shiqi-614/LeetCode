@@ -32,26 +32,38 @@ typedef vector<double> VD;
 typedef long long LL;
 typedef pair<int, int> PII;
 
-const int LIMIT = 1e7 + 5;
 class Solution {
 public:
-    bool checkPowersOfThree(int n)
+    int findTheWinner(int n, int k)
     {
-        vector<int> data;
-        LL base = 1;
-        while (base < LIMIT) {
-            data.push_back(base);
-            base = base * 3;
+        int cnt = n;
+        int cur = 0;
+        vector<bool> vis(n, 1);
+        while (cnt > 1) {
+            int idx = 0;
+            while (vis[cur] == 0) {
+                cur = (cur + 1) % n;
+            }
+            int tmp = k;
+            while (1) {
+                if (vis[cur] == 1) {
+                    tmp--;
+                }
+                if (tmp == 0) {
+                    vis[cur] = 0;
+                    cnt--;
+                    break;
+                }
+                cur = (cur + 1) % n;
+            }
         }
 
-        int idx = (int)data.size() - 1;
-        while (n && idx >= 0) {
-            if (n >= data[idx]) {
-                n -= data[idx];
+        for (int i = 0; i < n; i++) {
+            if (vis[i] == 1) {
+                return i + 1;
             }
-            idx--;
         }
-        return n == 0;
+        return 0;
     }
 };
 
@@ -61,5 +73,8 @@ int main()
     // freopen("in.txt", "r", stdin);
     // freopen("out.txt", "w", stdout);
 
+    Solution s;
+    cout << s.findTheWinner(5, 2) << endl;
+    cout << s.findTheWinner(6, 5) << endl;
     return 0;
 }

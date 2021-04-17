@@ -34,29 +34,21 @@ typedef pair<int, int> PII;
 
 class Solution {
 public:
-    int beautySum(string s)
+    int arraySign(vector<int>& nums)
     {
-        int cnt[30];
-        int res = 0;
-        int len = (int)s.length();
+        int len = (int)nums.size();
+        int cnt = 0;
         for (int i = 0; i < len; i++) {
-            memset(cnt, 0, sizeof(cnt));
-            int idx = s[i] - 'a';
-            cnt[idx]++;
-            for (int j = i + 1; j < len; j++) {
-                idx = s[j] - 'a';
-                cnt[idx]++;
-                int mi = INT_MAX;
-                int mx = INT_MIN;
-                for (int k = 0; k < 30; k++)
-                    if (cnt[k]) {
-                        mi = min(mi, cnt[k]);
-                        mx = max(mx, cnt[k]);
-                    }
-                res += (mx - mi);
+            if (nums[i] == 0) {
+                return 0;
+            } else if (nums[i] < 0) {
+                cnt++;
             }
         }
-        return res;
+        if (cnt % 2 == 0)
+            return 1;
+        else
+            return -1;
     }
 };
 
@@ -65,9 +57,6 @@ int main()
 
     // freopen("in.txt", "r", stdin);
     // freopen("out.txt", "w", stdout);
-
-    Solution s;
-    cout << s.beautySum("aabcb") << endl;
 
     return 0;
 }
