@@ -88,8 +88,8 @@ public:
         }
 
         sort(order.begin(), order.end());
-        //for (int i = 0; i < (int)order.size(); i++)
-        //cout << order[i].x << " " << order[i].y << " " << order[i].dis << endl;
+        // for (int i = 0; i < (int)order.size(); i++)
+        // cout << order[i].x << " " << order[i].y << " " << order[i].dis << endl;
 
         int res = 0;
         for (int i = 0; i < (int)order.size(); i++) {
@@ -98,7 +98,7 @@ public:
             if (find_fa(x) != find_fa(y)) {
                 res += order[i].dis;
                 unin(x, y);
-                //cout << "unin x:" << x << " y:" << y << endl;
+                // cout << "unin x:" << x << " y:" << y << endl;
             }
         }
         return res;
